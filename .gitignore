@@ -146,3 +146,10 @@ dmypy.json
 .ruff_cache/
 
 *.Identifier
+
+docs
+notes
+template_readme.md
+media/avatars/*
+staticfiles
+*_initial.py
