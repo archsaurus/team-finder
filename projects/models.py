@@ -9,30 +9,38 @@ class ProjectStatus(models.TextChoices):
 
 class Project(models.Model):
     """Модель проекта."""
-    name = models.CharField(max_length=200)
-    description = models.TextField(blank=True)
+
+    class Meta:
+        verbose_name = 'Проект'
+        verbose_name_plural = 'Проекты'
+
+        ordering = [
+            '-created_at',
+        ]
+
+    name = models.CharField(verbose_name='Название', max_length=200)
+    description = models.TextField(verbose_name='Описание', blank=True)
 
     owner = models.ForeignKey(
-        to='accounts.User',
-        related_name='owned_projects',
-        on_delete=models.CASCADE
+        to='accounts.User', verbose_name='Владелец', related_name='owned_projects', on_delete=models.CASCADE
     )
 
-    created_at = models.DateTimeField(auto_now_add=True)
-    github_url = models.URLField(blank=True)
+    created_at = models.DateTimeField(verbose_name='Создан', auto_now_add=True)
+    github_url = models.URLField(verbose_name='GitHub', blank=True)
 
     status = models.CharField(
+        verbose_name='Статус',
         choices=ProjectStatus.choices,
         default=ProjectStatus.OPEN,
         max_length=6,
-        db_index=True
+        db_index=True,
     )
 
     participants = models.ManyToManyField(
         to='accounts.User',
-        through='projects.UserProject',
+        verbose_name='Участники',
         related_name='participated_projects',
-        blank=True
+        blank=True,
     )
 
     def get_absolute_url(self):
@@ -40,24 +48,3 @@ class Project(models.Model):
 
     def __str__(self):
         return str(self.name)
-
-
-class UserProject(models.Model):
-    """Модель связи между пользователем и проектом."""
-    user = models.ForeignKey(
-        to='accounts.User', on_delete=models.CASCADE
-    )
-
-    project = models.ForeignKey(
-        to='projects.Project', on_delete=models.CASCADE
-    )
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=['user', 'project'],
-                name='unique_user_project')
-        ]
-
-    def __str__(self):
-        return f'{self.user.email} - {self.project.name}'

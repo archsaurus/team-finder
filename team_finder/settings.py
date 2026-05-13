@@ -4,9 +4,7 @@ import logging
 
 from decouple import config
 
-
 logger = logging.getLogger(__name__)
-
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('DJANGO_SECRET_KEY')
@@ -15,47 +13,44 @@ DEBUG = config('DJANGO_DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS_STR = config('DJANGO_ALLOWED_HOSTS', default='["*"]')
 ALLOWED_HOSTS = ast.literal_eval(ALLOWED_HOSTS_STR)
 
-# region Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
-
 STATIC_URL = '/static/'
 STATIC_ROOT = Path(BASE_DIR) / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
-# endregion
 
-
-# region Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-# endregion
-
 
 AUTH_USER_MODEL = 'accounts.User'
 
-# region Accounts Application Settings
+PAGINATION_PAGE_SIZE = 12
+AVATAR_SIZE = (100, 100)
+USER_BIO_MAX_LENGTH = 256
+PHONE_MAX_LENGTH = 12
+NAMING_FIELD_MAX_LENGTH = 124
+
 AVATAR_COLOR_PALETTES = {
     'pastel': [
-        (200, 220, 255), (255, 220, 200),
-        (220, 255, 220), (255, 200, 220),
-        (240, 230, 255), (255, 240, 200),
-        (200, 255, 240), (255, 200, 255)
+        (200, 220, 255),
+        (255, 220, 200),
+        (220, 255, 220),
+        (255, 200, 220),
+        (240, 230, 255),
+        (255, 240, 200),
+        (200, 255, 240),
+        (255, 200, 255),
     ],
-    'soft': [
-        (180, 200, 230), (230, 190, 170),
-        (170, 220, 190), (230, 170, 200)
-    ],
+    'soft': [(180, 200, 230), (230, 190, 170), (170, 220, 190), (230, 170, 200)],
     'professional': [
-        (160, 190, 220), (200, 180, 160),
-        (160, 200, 180), (220, 160, 190)
-    ]
+        (160, 190, 220),
+        (200, 180, 160),
+        (160, 200, 180),
+        (220, 160, 190),
+    ],
 }
 
 AVATAR_DEFAULT_PALETTE = 'pastel'
 
 AVATAR_FONT = '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'
-# endregion
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -64,10 +59,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'rest_framework',
     'rest_framework_simplejwt',
-
     'accounts',
     'projects',
 ]
@@ -104,10 +97,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'team_finder.wsgi.application'
 
-
-# region Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -118,11 +107,6 @@ DATABASES = {
         'PORT': config('POSTGRES_PORT', default=5432, cast=int),
     }
 }
-# endregion
-
-
-# region Password validation
-# https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = []
 if not DEBUG:
@@ -146,25 +130,14 @@ if not DEBUG:
             },
         ]
     )
-# endregion
-
-
-# region Internationalization
-# https://docs.djangoproject.com/en/5.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
-# endregion
-
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# region REST Framework
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
@@ -174,4 +147,3 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ),
 }
-# endregion

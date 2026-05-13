@@ -6,6 +6,7 @@ from .models import Project
 
 class GitHubURLValidator(URLValidator):
     """Валидатор только для GitHub ссылок."""
+
     def __call__(self, value):
         if not value.startswith(('https://github.com/', 'http://github.com/')):
             raise forms.ValidationError('Ссылка должна вести на GitHub')
@@ -14,13 +15,14 @@ class GitHubURLValidator(URLValidator):
 
 class ProjectForm(forms.ModelForm):
     """Форма создания/редактирования проекта."""
+
     github_url = forms.URLField(
         label='Ссылка на GitHub',
         required=False,
         validators=[GitHubURLValidator()],
-        widget=forms.URLInput(attrs={
-            'placeholder': 'https://github.com/username/repo'
-        })
+        widget=forms.URLInput(
+            attrs={'placeholder': 'https://github.com/username/repo'}
+        ),
     )
 
     class Meta:
@@ -32,12 +34,9 @@ class ProjectForm(forms.ModelForm):
             'status': 'Статус',
         }
         widgets = {
-            'name': forms.TextInput(attrs={
-                'placeholder': 'Введите название проекта'
-            }),
-            'description': forms.Textarea(attrs={
-                'rows': 4,
-                'placeholder': 'Расскажите о вашем проекте...'
-            }),
+            'name': forms.TextInput(attrs={'placeholder': 'Введите название проекта'}),
+            'description': forms.Textarea(
+                attrs={'rows': 4, 'placeholder': 'Расскажите о вашем проекте...'}
+            ),
             'status': forms.Select(attrs={'class': 'form-select'}),
         }
