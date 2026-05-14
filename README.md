@@ -30,9 +30,7 @@ docker compose up -d
 
 1. Клонировать репозиторий
 
-```sh
-git clone https://github.com/archsaurus/team-finder
-```
+git clone [https://github.com/archsaurus/team-finder](https://github.com/archsaurus/team-finder.git)
 
 2. Создать виртуальное окружение:
 

@@ -3,11 +3,12 @@ import re
 from django import forms
 from django.core.exceptions import ValidationError
 
-from .models import User
+from accounts.models import User
 
 
 class RegistrationForm(forms.ModelForm):
     """Форма регистрации."""
+
     password = forms.CharField(
         label='Пароль',
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
@@ -47,6 +48,7 @@ class RegistrationForm(forms.ModelForm):
 
 class LoginForm(forms.Form):
     """Форма авторизации."""
+
     email = forms.EmailField(
         label='Эл. почта',
         widget=forms.EmailInput(attrs={'autocomplete': 'email'})
@@ -59,10 +61,11 @@ class LoginForm(forms.Form):
 
 class ChangePasswordForm(forms.Form):
     """Форма смены пароля с кастомной валидацией."""
+
     old_password = forms.CharField(
         label='Текущий пароль',
         widget=forms.PasswordInput(attrs={'class': 'form-input'}),
-        strip=False
+        strip=False,
     )
     new_password1 = forms.CharField(
         label='Новый пароль',

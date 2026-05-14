@@ -1,6 +1,6 @@
-from pathlib import Path
 import ast
 import logging
+from pathlib import Path
 
 from decouple import config
 
@@ -21,36 +21,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 AUTH_USER_MODEL = 'accounts.User'
-
-PAGINATION_PAGE_SIZE = 12
-AVATAR_SIZE = (100, 100)
-USER_BIO_MAX_LENGTH = 256
-PHONE_MAX_LENGTH = 12
-NAMING_FIELD_MAX_LENGTH = 124
-
-AVATAR_COLOR_PALETTES = {
-    'pastel': [
-        (200, 220, 255),
-        (255, 220, 200),
-        (220, 255, 220),
-        (255, 200, 220),
-        (240, 230, 255),
-        (255, 240, 200),
-        (200, 255, 240),
-        (255, 200, 255),
-    ],
-    'soft': [(180, 200, 230), (230, 190, 170), (170, 220, 190), (230, 170, 200)],
-    'professional': [
-        (160, 190, 220),
-        (200, 180, 160),
-        (160, 200, 180),
-        (220, 160, 190),
-    ],
-}
-
-AVATAR_DEFAULT_PALETTE = 'pastel'
-
-AVATAR_FONT = '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -131,7 +101,7 @@ if not DEBUG:
         ]
     )
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-ru'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True

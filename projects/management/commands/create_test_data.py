@@ -2,8 +2,8 @@
 
 import random
 
-from django.core.management.base import BaseCommand
 from django.contrib.auth import get_user_model
+from django.core.management.base import BaseCommand
 from django.utils.text import slugify
 from faker import Faker
 
@@ -110,7 +110,7 @@ class Command(BaseCommand):
 
                 project.participants.add(*selected_users)
 
-        self.stdout.write(self.style.SUCCESS(f'Участники распределены'))
+        self.stdout.write(self.style.SUCCESS('Участники распределены'))
 
         # (30% пользователей лайкают 1-3 случайных проекта)
         self.stdout.write('Создание избранных проектов...')
@@ -125,7 +125,7 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.SUCCESS(f'Добавлено {favorite_counts} избранных'))
 
-        self.stdout.write(self.style.SUCCESS(f'\nСТАТИСТИКА:'))
+        self.stdout.write(self.style.SUCCESS('\nСТАТИСТИКА:'))
         self.stdout.write(f'\tПользователей: {len(users)}')
         self.stdout.write(f'\tПроектов: {len(projects)}')
         self.stdout.write(
@@ -148,7 +148,7 @@ class Command(BaseCommand):
 
         self.stdout.write(f'\tИзбранных связей: {favorite_counts}')
 
-        self.stdout.write(self.style.WARNING(f'\nЛогин/Пароль:'))
+        self.stdout.write(self.style.WARNING('\nЛогин/Пароль:'))
         self.stdout.write(f'\tСупер-пользователь: {SUPERUSER_EMAIL} / {SUPERUSER_PASSWORD}')
         self.stdout.write(f'\tПолзователь: testuser1@example.com / {PASSWORD}')
 

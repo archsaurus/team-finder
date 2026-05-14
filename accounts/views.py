@@ -1,22 +1,18 @@
-from django.conf import settings
-from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth import (authenticate, login, logout,
+                                 update_session_auth_hash)
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordChangeView
 from django.db.models import TextChoices
 from django.db.utils import IntegrityError
 from django.http import HttpResponseRedirect
-from django.views.generic import (
-    CreateView,
-    UpdateView,
-    FormView,
-    ListView,
-    RedirectView,
-    DetailView,
-)
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse, reverse_lazy
+from django.views.generic import (CreateView, DetailView, FormView, ListView,
+                                  RedirectView, UpdateView)
 
-from .forms import LoginForm, RegistrationForm, ChangePasswordForm, EditProfileForm
-from .models import User
+from accounts.forms import (ChangePasswordForm, EditProfileForm, LoginForm,
+                            RegistrationForm)
+from accounts.models import User
+from core import constants
 
 
 class UserFilterChoices(TextChoices):
@@ -43,11 +39,10 @@ class UserFilterChoices(TextChoices):
 class UserListView(ListView):
     """Список пользователей."""
 
-    model = User
     template_name = 'users/participants.html'
     context_object_name = 'participants'
 
-    paginate_by = getattr(settings, 'PAGINATION_PAGE_SIZE', 12)
+    paginate_by = constants.PAGINATION_PAGE_SIZE
 
     def _get_filtered_users(self, user, filter_type):
         filters = {

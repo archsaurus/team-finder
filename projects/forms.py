@@ -1,7 +1,7 @@
 from django import forms
 from django.core.validators import URLValidator
 
-from .models import Project
+from projects.models import Project
 
 
 class GitHubURLValidator(URLValidator):

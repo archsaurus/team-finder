@@ -1,10 +1,14 @@
-import io
 import hashlib
-from django.conf import settings
+import io
+import logging
+
 from django.core.files.base import ContentFile
 from PIL import Image, ImageDraw, ImageFont
 
-from .models import User
+from accounts.models import User
+from core import constants
+
+logger = logging.getLogger(__name__)
 
 
 def _first_letter(user: User) -> str:
@@ -40,31 +44,22 @@ def generate_avatar(user: User):
     Создает изображение с цветным фоном и центрированным текстом.
     Сохраняет изображение в поле avatar.
     """
-    palette_name = getattr(settings, 'AVATAR_DEFAULT_PALETTE', 'pastel')
-    palette = settings.AVATAR_COLOR_PALETTES.get(
-        palette_name, settings.AVATAR_COLOR_PALETTES['pastel']
-    )
+    palette_name = constants.AVATAR_DEFAULT_PALETTE
+    palette = constants.AVATAR_COLOR_PALETTES[palette_name]
 
     color_index = _get_color_index(user, palette)
     bg_color = palette[color_index]
 
-    img = Image.new('RGB', getattr(settings, 'AVATAR_SIZE', (100, 100)), color=bg_color)
+    img = Image.new('RGB', constants.AVATAR_SIZE, color=bg_color)
 
     try:
         font = ImageFont.truetype(
-            getattr(
-                settings,
-                'AVATAR_FONT',
-                '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf',
-            ),
-            48,
+            constants.AVATAR_FONT, constants.AVATAR_FONT_SIZE,
         )
 
     except OSError as exc:
-        if hasattr(settings, 'logger'):
-            settings.logger.warning(
-                f'Не удалось загрузить шрифт: "{exc}". Использован шрифт по умолчанию.'
-            )
+        if logger:
+            logger.warning(f'Не удалось загрузить шрифт: "{exc}". Использован шрифт по умолчанию.')
 
         font = ImageFont.load_default()
 

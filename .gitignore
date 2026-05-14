@@ -152,3 +152,5 @@ notes
 template_readme.md
 media/avatars/*
 staticfiles
+.pylintrc
+.flake8

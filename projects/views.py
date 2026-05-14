@@ -1,18 +1,17 @@
-from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.utils import IntegrityError
-from django.views.generic import CreateView, UpdateView
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
-from django.views.generic import DetailView, ListView, View
-
-from rest_framework.views import APIView
+from django.views.generic import (CreateView, DetailView, ListView, UpdateView,
+                                  View)
+from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework.views import APIView
 
-from .forms import ProjectForm
-from .models import Project, ProjectStatus
+from core import constants
+from projects.forms import ProjectForm
+from projects.models import Project, ProjectStatus
 
 
 class ProjectListView(ListView):
@@ -20,10 +19,9 @@ class ProjectListView(ListView):
     Шаблон: templates/projects/project_list.html
     """
 
-    model = Project
     template_name = 'projects/project_list.html'
     context_object_name = 'projects'
-    paginate_by = getattr(settings, 'PAGINATION_PAGE_SIZE', 12)
+    paginate_by = constants.PAGINATION_PAGE_SIZE
 
     def get_queryset(self):
         return Project.objects.select_related('owner').prefetch_related('participants')
@@ -42,7 +40,6 @@ class ProjectListView(ListView):
 class ProjectDetailView(DetailView):
     """Страница проекта."""
 
-    model = Project
     template_name = 'projects/project-details.html'
     context_object_name = 'project'
 
@@ -102,7 +99,6 @@ class ToggleFavoriteAPIView(APIView):
 class FavoriteProjectListView(LoginRequiredMixin, ListView):
     """Страница избранного."""
 
-    model = Project
     template_name = 'projects/favorite_projects.html'
     context_object_name = 'projects'
 
@@ -133,10 +129,10 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
             form.add_error(None, 'Ошибка создания проекта')
             return self.form_invalid(form)
 
+
 class ProjectUpdateView(LoginRequiredMixin, UpdateView):
     """Редактирование проекта."""
 
-    model = Project
     form_class = ProjectForm
     template_name = 'projects/create-project.html'
     context_object_name = 'project'
