@@ -39,8 +39,8 @@ def _draw_centered_text(image: Image.Image, text: str, font: ImageFont.ImageFont
 
 
 def generate_avatar(user: User):
-    """
-    Генерирует аватар с первой буквой имени пользователя.
+    """Генерирует аватар с первой буквой имени пользователя.
+
     Создает изображение с цветным фоном и центрированным текстом.
     Сохраняет изображение в поле avatar.
     """

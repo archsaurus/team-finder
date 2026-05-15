@@ -67,10 +67,10 @@ class ProjectDetailView(DetailView):
 
 
 class ToggleFavoriteAPIView(APIView):
-    """POST /<project_id>/toggle-favorite/
-    Требует аутентификации (JWT, Session и т.п.).
-    Возвращает JSON:
-        {'status': 'ok', 'favorited': true/false}
+    """Переключает статус «избранного» для проекта у текущего пользователя.
+
+    Обрабатывает POST‑запрос к /<project_id>/toggle-favorite/ с аутентификацией.
+    Возвращает JSON вида: {"status": "ok", "favorited": true/false}.
     """
 
     permission_classes = [
